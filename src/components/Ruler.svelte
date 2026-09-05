@@ -88,6 +88,15 @@
   function updateUnitButton() {
     unitBtn.textContent = `Unit: ${currentUnit.toUpperCase()}`;
     unitBtn.setAttribute('aria-label', `Current unit: ${currentUnit}, press U to cycle`);
+    // Announce to screen readers
+    announceToScreenReader(`Unit changed to ${currentUnit}`);
+  }
+
+  function announceToScreenReader(message: string) {
+    const announcer = document.getElementById('sr-announcer');
+    if (announcer) {
+      announcer.textContent = message;
+    }
   }
 
   function updateButtons() {
@@ -119,6 +128,7 @@
     applyTheme();
     saveSettings();
     renderRulers();
+    announceToScreenReader(`Dark mode ${isDarkMode ? 'enabled' : 'disabled'}`);
   }
 
   function toggleCrosshair() {
@@ -127,6 +137,7 @@
     crosshairEl.style.display = showCrosshair ? 'block' : 'none';
     coordsEl.style.display = showCrosshair ? 'block' : 'none';
     saveSettings();
+    announceToScreenReader(`Crosshair ${showCrosshair ? 'enabled' : 'disabled'}`);
   }
 
   function toggleGuides() {
@@ -134,6 +145,7 @@
     guidesBtn.setAttribute('aria-pressed', String(showGuides));
     renderGuides();
     saveSettings();
+    announceToScreenReader(`Guide lines ${showGuides ? 'enabled' : 'disabled'}`);
   }
 
   function toggleGuideOrientation() {
@@ -663,6 +675,9 @@
     <button id="clear-guides-btn" class="control-btn" aria-label="Clear all guides" onclick={clearAllGuides}>Clear Guides</button>
   </div>
 
+  <!-- Screen reader announcer -->
+  <div id="sr-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
   <div class="shortcuts-help" aria-hidden="true">
     <kbd>U</kbd> Unit &nbsp;
     <kbd>D</kbd> Dark &nbsp;
@@ -847,5 +862,17 @@
     .crosshair-v {
       transition: none;
     }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>

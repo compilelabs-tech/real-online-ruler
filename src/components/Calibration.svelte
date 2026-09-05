@@ -240,13 +240,25 @@
     
     if (event.key === 'Escape') {
       showCalibrationModal = false;
+      // Return focus to trigger button
+      const trigger = document.querySelector('.calibration-trigger') as HTMLElement;
+      trigger?.focus();
     }
+    
+    handleTabKey(event);
   }
 
   // Listen for open-calibration event
   onMount(() => {
     window.addEventListener('open-calibration', () => {
       showCalibrationModal = true;
+      // Focus management for modal
+      setTimeout(() => {
+        const firstFocusable = document.querySelector('.calibration-modal button, .calibration-modal input, .calibration-modal select, .calibration-modal [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+          (firstFocusable as HTMLElement).focus();
+        }
+      }, 0);
     });
     
     window.addEventListener('keydown', handleKeydown);
@@ -256,6 +268,30 @@
       window.removeEventListener('keydown', handleKeydown);
     };
   });
+
+  // Handle focus trap in modal
+  function handleTabKey(event: KeyboardEvent) {
+    if (!showCalibrationModal) return;
+    
+    if (event.key === 'Tab') {
+      const focusableElements = Array.from(
+        document.querySelectorAll('.calibration-modal button:not([disabled]), .calibration-modal input:not([disabled]), .calibration-modal select:not([disabled]), .calibration-modal [tabindex]:not([tabindex="-1"])')
+      ) as HTMLElement[];
+      
+      if (focusableElements.length === 0) return;
+      
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
 
   // Get calibration label
   function getCalibrationLabel() {
@@ -282,11 +318,11 @@
   }
 </script>
 
-<div class="calibration-modal-overlay" class:show={showCalibrationModal} role="dialog" aria-modal="true" aria-labelledby="calibration-title">
+<div class="calibration-modal-overlay" class:show={showCalibrationModal} role="dialog" aria-modal="true" aria-labelledby="calibration-title" id="calibration-modal">
   <div class="calibration-modal">
     <header>
       <h2 id="calibration-title">Calibrate Ruler</h2>
-      <button class="close-btn" on:click={() => showCalibrationModal = false} aria-label="Close">×</button>
+      <button class="close-btn" on:click={() => showCalibrationModal = false} aria-label="Close calibration dialog">×</button>
     </header>
 
     <!-- Current calibration status -->
@@ -413,7 +449,9 @@
 <button 
   class="calibration-trigger" 
   on:click={() => showCalibrationModal = true}
-  aria-label="Open calibration"
+  aria-label="Open calibration settings"
+  aria-expanded={showCalibrationModal}
+  aria-controls="calibration-modal"
   title="Calibrate ruler (K)"
 >
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
