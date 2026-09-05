@@ -77,9 +77,24 @@
       "priority": "P0",
       "milestone": "M1",
       "assignee": "frontend",
+      "status": "done",
+      "agent": "frontend",
+      "attempts": 0,
+      "branch": "feat/issue-2-calibration",
+      "commits": ["048ef52"],
+      "report": ".workflow/reports/task-006-report.md"
+    },
+    {
+      "id": "task-007",
+      "title": "React UI/UX redesign (Svelte → React)",
+      "label": "feature,enhancement,P1",
+      "priority": "P1",
+      "milestone": "M2",
+      "assignee": "frontend",
       "status": "open",
       "agent": "frontend",
-      "attempts": 0
+      "attempts": 0,
+      "branch": "feat/issue-7-react-redesign"
     }
   ]
 }
