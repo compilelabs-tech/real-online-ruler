@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
-import svelte from '@astrojs/svelte';
 import { VitePWA } from 'vite-plugin-pwa';
+
+import react from '@astrojs/react';
 
 // 15 locales for internationalization
 const locales = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'ko', 'pt', 'ru', 'ar', 'hi', 'bn', 'id', 'tr', 'vi'];
@@ -17,7 +18,7 @@ export default defineConfig({
   },
   output: 'static',
   site: 'https://real-online-ruler.com',
-  integrations: [svelte()],
+  integrations: [react()],
   vite: {
     plugins: [
       VitePWA({

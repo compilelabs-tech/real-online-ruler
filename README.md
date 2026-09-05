@@ -11,6 +11,7 @@ Real Online Ruler is a free, browser-based measurement tool that turns any scree
 ## ✨ Features
 
 ### Core Ruler
+- **Framework:** React (via @astrojs/react) — replaced the original Svelte implementation
 - **Units:** cm / inches / mm toggle (persisted in `localStorage`)
 - **4-edge rulers:** top, bottom, left, right visible simultaneously
 - **Crosshair mode:** live X/Y coordinates on hover/touch
@@ -78,10 +79,12 @@ real-online-ruler/
 ├── public/                     # Static assets: robots.txt, og-image, favicon, icons
 ├── src/
 │   ├── components/
-│   │   ├── Ruler.svelte        # Core ruler engine (units, edges, crosshair, guides)
-│   │   └── Calibration.svelte  # 5-method calibration modal
+│   │   ├── Ruler.tsx            # Core ruler engine (React)
+│   │   └── CalibrationModal.tsx # 5-method calibration modal (React)
 │   ├── data/
 │   │   └── devices.json        # 100+ device database (name, resolution, diagonal, DPI)
+│   ├── styles/
+│   │   └── global.css          # Shared design tokens & UI styles
 │   └── pages/
 │       ├── index.astro         # Root → redirects to /en/
 │       ├── en/ es/ fr/ ...     # 15 locale pages

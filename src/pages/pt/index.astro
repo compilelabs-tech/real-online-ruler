@@ -1,9 +1,10 @@
 ---
-import Ruler from '../../components/Ruler.svelte';
+import Ruler from '../../components/Ruler.tsx';
+import '../../styles/global.css';
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -11,17 +12,81 @@ import Ruler from '../../components/Ruler.svelte';
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="generator" content={Astro.generator} />
     <title>Real Online Ruler — Actual Size On-Screen Ruler</title>
-    <meta name="description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size. Works on mobile and desktop." />
+    <meta name="description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size using 5 methods: auto-detect, device database, screen diagonal, credit card, or manual DPI. Works on mobile and desktop, no install needed." />
+    <meta name="keywords" content="online ruler, actual size ruler, screen ruler, cm ruler, mm ruler, inches ruler, measure on screen, calibrated ruler, free ruler" />
     <link rel="canonical" href="https://real-online-ruler.com/" />
     <meta property="og:title" content="Real Online Ruler — Actual Size On-Screen Ruler" />
-    <meta property="og:description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size." />
+    <meta property="og:description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size. Works on mobile and desktop." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://real-online-ruler.com/" />
+    <meta property="og:image" content="https://real-online-ruler.com/og-image.png" />
+    <meta property="og:site_name" content="Real Online Ruler" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Real Online Ruler — Actual Size On-Screen Ruler" />
+    <meta name="twitter:description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size." />
+    <meta name="twitter:image" content="https://real-online-ruler.com/og-image.png" />
     <meta name="theme-color" content="#0066ff" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Ruler" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="alternate" hreflang="en" href="https://real-online-ruler.com/" />
+    <link rel="alternate" hreflang="es" href="https://real-online-ruler.com/es/" />
+    <link rel="alternate" hreflang="fr" href="https://real-online-ruler.com/fr/" />
+    <link rel="alternate" hreflang="de" href="https://real-online-ruler.com/de/" />
+    <link rel="alternate" hreflang="zh" href="https://real-online-ruler.com/zh/" />
+    <link rel="alternate" hreflang="ja" href="https://real-online-ruler.com/ja/" />
+    <link rel="alternate" hreflang="ko" href="https://real-online-ruler.com/ko/" />
+    <link rel="alternate" hreflang="pt" href="https://real-online-ruler.com/pt/" />
+    <link rel="alternate" hreflang="ru" href="https://real-online-ruler.com/ru/" />
+    <link rel="alternate" hreflang="ar" href="https://real-online-ruler.com/ar/" />
+    <link rel="alternate" hreflang="hi" href="https://real-online-ruler.com/hi/" />
+    <link rel="alternate" hreflang="bn" href="https://real-online-ruler.com/bn/" />
+    <link rel="alternate" hreflang="id" href="https://real-online-ruler.com/id/" />
+    <link rel="alternate" hreflang="tr" href="https://real-online-ruler.com/tr/" />
+    <link rel="alternate" hreflang="vi" href="https://real-online-ruler.com/vi/" />
+    <link rel="alternate" hreflang="x-default" href="https://real-online-ruler.com/" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Real Online Ruler",
+        "url": "https://real-online-ruler.com/",
+        "description": "Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size using 5 methods.",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any (Web)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+          "5 calibration methods (auto, device database, diagonal, credit card, manual DPI)",
+          "15 languages supported",
+          "Physical size accuracy using devicePixelRatio",
+          "Crosshair mode with coordinates",
+          "Persistent guide lines",
+          "Dark/light mode",
+          "PWA offline support",
+          "Full keyboard accessibility"
+        ],
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "UseAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://real-online-ruler.com/",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          }
+        }
+      }
+    </script>
   </head>
   <body>
     <Ruler client:load />

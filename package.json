@@ -12,10 +12,13 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.5",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/svelte": "^9.0.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "astro": "^7.3.1",
-    "svelte": "^5.57.0"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "allowScripts": {
     "esbuild": true
