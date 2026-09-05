@@ -465,7 +465,8 @@
   .calibration-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(11, 24, 43, 0.56);
+    backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -483,15 +484,16 @@
   }
 
   .calibration-modal {
-    background: var(--bg-secondary, #fff);
-    border-radius: 12px;
+    background: #fbfdff;
+    border: 1px solid rgba(125, 148, 180, 0.2);
+    border-radius: 20px;
     width: 100%;
     max-width: 560px;
     max-height: 85vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 28px 80px rgba(11, 32, 63, 0.24);
     animation: slideUp 0.3s ease;
   }
 
@@ -504,13 +506,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border, #e0e0e0);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e4ebf5;
   }
 
   .calibration-modal h2 {
     margin: 0;
-    font-size: 1.25rem;
+    color: #152238;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
   }
 
   .close-btn {
@@ -518,22 +522,22 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--text-muted, #666);
+    color: #718096;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .close-btn:hover {
-    background: var(--bg-tertiary, #f0f0f0);
+    background: #edf3fc;
   }
 
   .current-calibration {
     padding: 1rem 1.5rem;
-    background: var(--bg-tertiary, #f5f5f5);
-    border-bottom: 1px solid var(--border, #e0e0e0);
+    background: #f3f7fc;
+    border-bottom: 1px solid #e4ebf5;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -563,7 +567,7 @@
     display: flex;
     overflow-x: auto;
     padding: 0 1rem;
-    border-bottom: 1px solid var(--border, #e0e0e0);
+    border-bottom: 1px solid #e4ebf5;
     gap: 0.25rem;
   }
   .calibration-tabs button {
@@ -582,8 +586,8 @@
     color: var(--text, #333);
   }
   .calibration-tabs button.active {
-    color: var(--accent, #3b82f6);
-    border-bottom-color: var(--accent, #3b82f6);
+    color: #1769e8;
+    border-bottom-color: #1769e8;
   }
 
   .tab-content {
@@ -736,7 +740,7 @@
     transition: all 0.15s;
   }
   .btn.primary {
-    background: var(--accent, #3b82f6);
+    background: #1769e8;
     color: white;
   }
   .btn.primary:hover:not(:disabled) {
@@ -805,20 +809,20 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--accent, #3b82f6);
+    background: #1769e8;
     color: white;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 24px rgba(23, 105, 232, 0.32);
     z-index: 100;
     transition: transform 0.2s, box-shadow 0.2s;
   }
   .calibration-trigger:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 12px 26px rgba(23, 105, 232, 0.4);
   }
   .calibration-trigger:focus-visible {
     outline: 2px solid var(--accent, #3b82f6);

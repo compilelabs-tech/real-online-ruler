@@ -658,6 +658,20 @@
 <div id="ruler-app" class="ruler-app">
   <canvas id="ruler-canvas" class="ruler-canvas" aria-label="Ruler canvas"></canvas>
 
+  <header class="app-header">
+    <div class="brand-lockup">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <div>
+        <strong>Real Ruler</strong>
+        <span>Measure at actual size</span>
+      </div>
+    </div>
+    <div class="header-status" aria-label="Ruler status">
+      <span class="status-dot"></span>
+      <span>Screen calibrated</span>
+    </div>
+  </header>
+
   <div id="crosshair" class="crosshair" aria-hidden="true">
     <div class="crosshair-h"></div>
     <div class="crosshair-v"></div>
@@ -697,17 +711,104 @@
     position: fixed;
     inset: 0;
     overflow: hidden;
-    background: var(--bg-primary, #fff);
-    color: var(--text-primary, #111);
-    font-family: system-ui, -apple-system, sans-serif;
+    background: #f4f7fb;
+    color: #152238;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
   }
 
   :global(.dark) .ruler-app {
-    --bg-primary: #111;
-    --text-primary: #eee;
+    background: #0e1726;
+    color: #f4f7fb;
+  }
+
+  .app-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    padding: 10px 20px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(244, 247, 251, 0.96), rgba(244, 247, 251, 0));
+  }
+
+  :global(.dark) .app-header {
+    background: linear-gradient(180deg, rgba(14, 23, 38, 0.96), rgba(14, 23, 38, 0));
+  }
+
+  .brand-lockup,
+  .header-status {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-lockup {
+    gap: 10px;
+  }
+
+  .brand-lockup > div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .brand-lockup strong {
+    color: #152238;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+  }
+
+  .brand-lockup span:not(.brand-mark),
+  .header-status {
+    color: #68758a;
+    font-size: 11px;
+  }
+
+  :global(.dark) .brand-lockup strong {
+    color: #f4f7fb;
+  }
+
+  :global(.dark) .brand-lockup span:not(.brand-mark),
+  :global(.dark) .header-status {
+    color: #a9b6c8;
+  }
+
+  .brand-mark {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border: 1px solid rgba(38, 112, 255, 0.22);
+    border-radius: 10px;
+    background: #e9f1ff;
+    color: #1463e8;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .header-status {
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid rgba(106, 125, 151, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(12px);
+  }
+
+  :global(.dark) .header-status {
+    background: rgba(22, 37, 59, 0.7);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #16a568;
+    box-shadow: 0 0 0 3px rgba(22, 165, 104, 0.13);
   }
 
   .ruler-canvas {
@@ -762,37 +863,45 @@
 
   .controls {
     position: fixed;
-    bottom: 16px;
+    top: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
-    padding: 8px 12px;
-    background: var(--bg-primary, #fff);
-    border: 1px solid var(--border, #ddd);
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    padding: 7px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(106, 125, 151, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 14px 35px rgba(30, 52, 82, 0.12);
+    backdrop-filter: blur(18px);
     z-index: 20;
     flex-wrap: wrap;
     justify-content: center;
   }
 
+  :global(.dark) .controls {
+    background: rgba(20, 34, 54, 0.82);
+    border-color: rgba(169, 182, 200, 0.2);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+  }
+
   .control-btn {
-    padding: 8px 12px;
-    border: 1px solid var(--border, #ddd);
-    border-radius: 8px;
-    background: var(--bg-secondary, #f5f5f5);
-    color: var(--text-primary, #111);
-    font: 13px system-ui, sans-serif;
+    padding: 9px 12px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: #53647b;
+    font: 600 12px 'Inter', 'Segoe UI', sans-serif;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     min-width: 44px;
     min-height: 44px;
   }
 
   .control-btn:hover {
-    background: var(--bg-tertiary, #eee);
-    border-color: var(--accent, #06f);
+    background: #edf3fc;
+    border-color: #d8e4f5;
+    color: #155dcc;
   }
 
   .control-btn:focus-visible {
@@ -801,25 +910,36 @@
   }
 
   .control-btn[aria-pressed="true"] {
-    background: var(--accent, #06f);
+    background: #1769e8;
     color: white;
-    border-color: var(--accent, #06f);
+    border-color: #1769e8;
+  }
+
+  :global(.dark) .control-btn {
+    color: #b4c1d2;
+  }
+
+  :global(.dark) .control-btn:hover {
+    background: #223a5d;
+    border-color: #31547f;
+    color: #e6efff;
   }
 
   .shortcuts-help {
     position: fixed;
-    bottom: 72px;
+    top: 82px;
     left: 50%;
     transform: translateX(-50%);
     padding: 8px 16px;
-    background: var(--bg-primary, #fff);
-    border: 1px solid var(--border, #ddd);
-    border-radius: 8px;
-    font: 11px system-ui, sans-serif;
-    color: var(--text-secondary, #666);
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(106, 125, 151, 0.16);
+    border-radius: 999px;
+    font: 11px 'Inter', 'Segoe UI', sans-serif;
+    color: #718096;
     white-space: nowrap;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     z-index: 15;
+    opacity: 0.78;
   }
 
   .shortcuts-help kbd {
@@ -840,8 +960,11 @@
   @media (max-width: 480px) {
     .controls {
       bottom: 8px;
+      top: auto;
+      width: calc(100% - 16px);
       padding: 6px 8px;
       gap: 4px;
+      border-radius: 18px;
     }
 
     .control-btn {
@@ -850,9 +973,24 @@
     }
 
     .shortcuts-help {
-      bottom: 64px;
+      top: 76px;
       font-size: 10px;
       padding: 6px 12px;
+      max-width: calc(100% - 32px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-header {
+      padding: 8px 12px;
+    }
+
+    .header-status {
+      padding: 6px 8px;
+    }
+
+    .header-status span:last-child {
+      display: none;
     }
   }
 
