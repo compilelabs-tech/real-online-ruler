@@ -234,15 +234,26 @@
     }
   }
 
+  function closeCalibration() {
+    showCalibrationModal = false;
+    isCardDragging = false;
+    document.querySelector<HTMLElement>('.calibration-trigger')?.focus();
+  }
+
+  function openCalibration() {
+    showCalibrationModal = true;
+    setTimeout(() => {
+      document.querySelector<HTMLElement>('.calibration-modal button, .calibration-modal input, .calibration-modal select')?.focus();
+    }, 0);
+  }
+
   // Keyboard handling
   function handleKeydown(event: KeyboardEvent) {
     if (!showCalibrationModal) return;
     
     if (event.key === 'Escape') {
-      showCalibrationModal = false;
-      // Return focus to trigger button
-      const trigger = document.querySelector('.calibration-trigger') as HTMLElement;
-      trigger?.focus();
+      closeCalibration();
+      return;
     }
     
     handleTabKey(event);
@@ -250,21 +261,12 @@
 
   // Listen for open-calibration event
   onMount(() => {
-    window.addEventListener('open-calibration', () => {
-      showCalibrationModal = true;
-      // Focus management for modal
-      setTimeout(() => {
-        const firstFocusable = document.querySelector('.calibration-modal button, .calibration-modal input, .calibration-modal select, .calibration-modal [tabindex]:not([tabindex="-1"])');
-        if (firstFocusable) {
-          (firstFocusable as HTMLElement).focus();
-        }
-      }, 0);
-    });
+    window.addEventListener('open-calibration', openCalibration);
     
     window.addEventListener('keydown', handleKeydown);
     
     return () => {
-      window.removeEventListener('open-calibration', () => {});
+      window.removeEventListener('open-calibration', openCalibration);
       window.removeEventListener('keydown', handleKeydown);
     };
   });
@@ -318,11 +320,11 @@
   }
 </script>
 
-<div class="calibration-modal-overlay" class:show={showCalibrationModal} role="dialog" aria-modal="true" aria-labelledby="calibration-title" id="calibration-modal">
+<div class="calibration-modal-overlay" class:show={showCalibrationModal} role="dialog" aria-modal="true" aria-labelledby="calibration-title" id="calibration-modal" onclick={(event) => event.target === event.currentTarget && closeCalibration()}>
   <div class="calibration-modal">
     <header>
       <h2 id="calibration-title">Calibrate Ruler</h2>
-      <button class="close-btn" on:click={() => showCalibrationModal = false} aria-label="Close calibration dialog">×</button>
+      <button class="close-btn" type="button" onclick={closeCalibration} aria-label="Close calibration dialog" title="Close">×</button>
     </header>
 
     <!-- Current calibration status -->
@@ -335,11 +337,11 @@
     </div>
 
     <nav class="calibration-tabs" role="tablist">
-      <button role="tab" class:active={!calibration.method || calibration.method === 'auto'} on:click={() => { calibration.method = 'auto'; }}>Auto-Detect</button>
-      <button role="tab" class:active={calibration.method === 'device'} on:click={() => { calibration.method = 'device'; }}>Device Database</button>
-      <button role="tab" class:active={calibration.method === 'diagonal'} on:click={() => { calibration.method = 'diagonal'; }}>Screen Diagonal</button>
-      <button role="tab" class:active={calibration.method === 'card'} on:click={startCardCalibration}>Credit Card</button>
-      <button role="tab" class:active={calibration.method === 'manual'} on:click={() => { calibration.method = 'manual'; }}>Manual DPI</button>
+      <button role="tab" class:active={!calibration.method || calibration.method === 'auto'} onclick={() => { calibration.method = 'auto'; }}>Auto-Detect</button>
+      <button role="tab" class:active={calibration.method === 'device'} onclick={() => { calibration.method = 'device'; }}>Device Database</button>
+      <button role="tab" class:active={calibration.method === 'diagonal'} onclick={() => { calibration.method = 'diagonal'; }}>Screen Diagonal</button>
+      <button role="tab" class:active={calibration.method === 'card'} onclick={startCardCalibration}>Credit Card</button>
+      <button role="tab" class:active={calibration.method === 'manual'} onclick={() => { calibration.method = 'manual'; }}>Manual DPI</button>
     </nav>
 
     <!-- Auto-Detect Tab -->
@@ -354,7 +356,7 @@
             <div class="confidence-fill" style="width: {autoConfidence}%"></div>
           </div>
           <span class="confidence-text">Confidence: {autoConfidence}%</span>
-          <button class="btn primary" on:click={applyAutoCalibration} disabled={!autoDetectedDevice}>Apply Auto-Detection</button>
+          <button class="btn primary" onclick={applyAutoCalibration} disabled={!autoDetectedDevice}>Apply Auto-Detection</button>
         </div>
       {:else}
         <p class="no-detection">Could not auto-detect your device. Try another method.</p>
@@ -368,10 +370,10 @@
           type="text" 
           bind:value={searchQuery} 
           placeholder="Search devices..." 
-          on:input={filterDevices}
+          oninput={filterDevices}
           aria-label="Search devices"
         />
-        <select bind:value={selectedType} on:change={filterDevices} aria-label="Filter by type">
+        <select bind:value={selectedType} onchange={filterDevices} aria-label="Filter by type">
           <option value="all">All Types</option>
           <option value="phone">Phone</option>
           <option value="tablet">Tablet</option>
@@ -381,7 +383,7 @@
       </div>
       <div class="device-list">
         {#each filteredDevices as device}
-          <button class="device-item" on:click={() => selectDevice(device)}>
+          <button class="device-item" onclick={() => selectDevice(device)}>
             <span class="device-name">{device.name}</span>
             <span class="device-specs">{device.width}×{device.height} · {device.dpi} DPI · {device.diagonal}"</span>
             <span class="device-type">{device.type}</span>
@@ -406,20 +408,20 @@
         />
         <span class="unit">inches</span>
       </div>
-      <button class="btn primary" on:click={applyDiagonalCalibration} disabled={!diagonalInput}>Apply</button>
+      <button class="btn primary" onclick={applyDiagonalCalibration} disabled={!diagonalInput}>Apply</button>
     </div>
 
     <!-- Credit Card Tab -->
     <div class="tab-content" class:active={calibration.method === 'card'}>
       <p class="instruction">Place a standard credit card (ID-1 format: 85.60 × 53.98 mm) on your screen and align the outline below.</p>
       
-      <div class="card-calibration-area" on:mousedown={() => isCardDragging = true} on:touchstart={() => isCardDragging = true}>
+      <div class="card-calibration-area" onmousedown={() => isCardDragging = true} ontouchstart={() => isCardDragging = true}>
         <div class="card-overlay" style="transform: translate({cardDragOffset.x}px, {cardDragOffset.y}px);">
           <div class="card-outline"></div>
           <div class="card-label">Place card here</div>
         </div>
         <div class="card-instructions">
-          <kbd>Drag</kbd> to position · <kbd>Scroll/Pinch</kbd> to resize · Click <button class="btn secondary" on:click={finishCardCalibration}>Done</button>
+          <kbd>Drag</kbd> to position · <kbd>Scroll/Pinch</kbd> to resize · Click <button class="btn secondary" onclick={finishCardCalibration}>Done</button>
         </div>
       </div>
     </div>
@@ -440,7 +442,7 @@
         />
         <span class="unit">DPI</span>
       </div>
-      <button class="btn primary" on:click={applyManualDpi} disabled={!manualDpiInput}>Apply</button>
+      <button class="btn primary" onclick={applyManualDpi} disabled={!manualDpiInput}>Apply</button>
     </div>
   </div>
 </div>
@@ -448,7 +450,8 @@
 <!-- Calibration trigger button -->
 <button 
   class="calibration-trigger" 
-  on:click={() => showCalibrationModal = true}
+  type="button"
+  onclick={openCalibration}
   aria-label="Open calibration settings"
   aria-expanded={showCalibrationModal}
   aria-controls="calibration-modal"

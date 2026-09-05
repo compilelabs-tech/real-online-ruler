@@ -570,10 +570,15 @@
   }
 
   function clearAllGuides() {
-    if (guides.length === 0) return;
+    if (guides.length === 0) {
+      announceToScreenReader('There are no guide lines to clear');
+      return;
+    }
+
     guides = [];
     saveSettings();
     renderGuides();
+    announceToScreenReader('All guide lines cleared');
   }
 
   onMount(() => {
@@ -680,13 +685,35 @@
   <div id="coords" class="coords" aria-live="polite" aria-atomic="true"></div>
 
   <div class="controls" role="toolbar" aria-label="Ruler controls">
-    <button id="unit-btn" class="control-btn" aria-label="Cycle units (U)"></button>
-    <button id="dark-btn" class="control-btn" aria-label="Toggle dark mode (D)"></button>
-    <button id="crosshair-btn" class="control-btn" aria-label="Toggle crosshair (C)"></button>
-    <button id="guides-btn" class="control-btn" aria-label="Toggle guide lines (G)"></button>
-    <button id="guide-toggle-btn" class="control-btn" aria-label="Toggle guide orientation"></button>
-    <button id="fullscreen-btn" class="control-btn" aria-label="Toggle fullscreen (F)"></button>
-    <button id="clear-guides-btn" class="control-btn" aria-label="Clear all guides" onclick={clearAllGuides}>Clear Guides</button>
+    <button id="unit-btn" class="control-btn text-control unit-control" aria-label="Cycle units (U)" title="Change measurement unit"></button>
+    <button id="dark-btn" class="control-btn icon-btn" aria-label="Toggle dark mode (D)" title="Toggle dark mode">
+      <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z"></path>
+      </svg>
+    </button>
+    <button id="crosshair-btn" class="control-btn icon-btn" aria-label="Toggle crosshair (C)" title="Toggle crosshair">
+      <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v5M12 16v5M3 12h5M16 12h5"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+    </button>
+    <button id="guides-btn" class="control-btn icon-btn" aria-label="Toggle guide lines (G)" title="Toggle guide lines">
+      <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 17h16M7 4v16M17 4v16"></path>
+        <path d="M9 12h6M12 9v6"></path>
+      </svg>
+    </button>
+    <button id="guide-toggle-btn" class="control-btn text-control guide-control" aria-label="Toggle guide orientation" title="Change guide orientation"></button>
+    <button id="fullscreen-btn" class="control-btn icon-btn" aria-label="Toggle fullscreen (F)" title="Toggle fullscreen">
+      <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5"></path>
+      </svg>
+    </button>
+    <button id="clear-guides-btn" class="control-btn" aria-label="Clear all guides" title="Clear all guide lines" onclick={clearAllGuides}>Clear Guides</button>
   </div>
 
   <!-- Screen reader announcer -->
@@ -877,6 +904,8 @@
     z-index: 20;
     flex-wrap: wrap;
     justify-content: center;
+    width: max-content;
+    max-width: calc(100vw - 32px);
   }
 
   :global(.dark) .controls {
@@ -913,6 +942,68 @@
     background: #1769e8;
     color: white;
     border-color: #1769e8;
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+  }
+
+  .tool-icon {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .text-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .unit-control::before,
+  .guide-control::before {
+    display: inline-block;
+    color: currentColor;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .unit-control::before {
+    content: '↔';
+  }
+
+  .guide-control::before {
+    content: '＋';
+  }
+
+  .theme-icon,
+  .fullscreen-icon {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .icon-moon {
+    display: none;
+  }
+
+  :global(.dark) .icon-sun {
+    display: none;
+  }
+
+  :global(.dark) .icon-moon {
+    display: block;
   }
 
   :global(.dark) .control-btn {
@@ -961,10 +1052,23 @@
     .controls {
       bottom: 8px;
       top: auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       width: calc(100% - 16px);
+      max-width: none;
       padding: 6px 8px;
       gap: 4px;
       border-radius: 18px;
+    }
+
+    .control-btn {
+      width: 100%;
+    }
+
+    .unit-control,
+    .guide-control,
+    #clear-guides-btn {
+      grid-column: span 2;
     }
 
     .control-btn {
