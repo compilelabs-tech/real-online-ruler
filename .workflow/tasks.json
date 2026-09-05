@@ -21,9 +21,12 @@
       "priority": "P0",
       "milestone": "M1",
       "assignee": "frontend",
-      "status": "open",
+      "status": "done",
       "agent": "frontend",
-      "attempts": 0
+      "attempts": 0,
+      "branch": "feat/issue-2-calibration",
+      "commits": ["30b86b9"],
+      "report": ".workflow/reports/task-002-report.md"
     },
     {
       "id": "task-003",
@@ -32,9 +35,12 @@
       "priority": "P0",
       "milestone": "M1",
       "assignee": "frontend",
-      "status": "open",
+      "status": "done",
       "agent": "frontend",
-      "attempts": 0
+      "attempts": 0,
+      "branch": "feat/issue-2-calibration",
+      "commits": ["d7c3c6b"],
+      "report": ".workflow/reports/task-003-report.md"
     },
     {
       "id": "task-004",

@@ -3,21 +3,32 @@ import Ruler from '../../components/Ruler.svelte';
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="generator" content={Astro.generator} />
-    <title>Regla Online Real — Regla en Pantalla a Tamaño Real</title>
-    <meta name="description" content="Regla online gratuita con cm, mm y pulgadas. Calibrada al tamaño físico de tu pantalla. Funciona en móvil y escritorio." />
-    <link rel="canonical" href="https://real-online-ruler.com/es/" />
-    <meta property="og:title" content="Regla Online Real — Regla en Pantalla a Tamaño Real" />
-    <meta property="og:description" content="Regla online gratuita con cm, mm y pulgadas. Calibrada al tamaño físico de tu pantalla." />
+    <title>Real Online Ruler — Actual Size On-Screen Ruler</title>
+    <meta name="description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size. Works on mobile and desktop." />
+    <link rel="canonical" href="https://real-online-ruler.com/" />
+    <meta property="og:title" content="Real Online Ruler — Actual Size On-Screen Ruler" />
+    <meta property="og:description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size." />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0066ff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Ruler" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
   </head>
   <body>
     <Ruler client:load />
+    <script type="module">
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/registerSW.js');
+      }
+    </script>
   </body>
 </html>
