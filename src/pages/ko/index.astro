@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>실제 온라인 자 — 화면 실제 크기 자</title>
+    <meta name="description" content="cm, mm, 인치를 지원하는 무료 온라인 자. 화면의 물리적 크기에 맞춰 보정. 모바일과 데스크톱에서 작동." />
+    <link rel="canonical" href="https://real-online-ruler.com/ko/" />
+    <meta property="og:title" content="실제 온라인 자 — 화면 실제 크기 자" />
+    <meta property="og:description" content="cm, mm, 인치를 지원하는 무료 온라인 자. 화면의 물리적 크기에 맞춰 보정. 모바일과 데스크톱에서 작동." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>

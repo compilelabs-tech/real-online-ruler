@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Regla Online Real — Regla en Pantalla a Tamaño Real</title>
+    <meta name="description" content="Regla online gratuita con cm, mm y pulgadas. Calibrada al tamaño físico de tu pantalla. Funciona en móvil y escritorio." />
+    <link rel="canonical" href="https://real-online-ruler.com/es/" />
+    <meta property="og:title" content="Regla Online Real — Regla en Pantalla a Tamaño Real" />
+    <meta property="og:description" content="Regla online gratuita con cm, mm y pulgadas. Calibrada al tamaño físico de tu pantalla." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>

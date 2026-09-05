@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Настоящая онлайн-линейка — Линейка на экране в реальном размере</title>
+    <meta name="description" content="Бесплатная онлайн-линейка с см, мм и дюймами. Откалибрована под физический размер вашего экрана. Работает на мобильных и десктопе." />
+    <link rel="canonical" href="https://real-online-ruler.com/ru/" />
+    <meta property="og:title" content="Настоящая онлайн-линейка — Линейка на экране в реальном размере" />
+    <meta property="og:description" content="Бесплатная онлайн-линейка с см, мм и дюймами. Откалибрована под физический размер вашего экрана. Работает на мобильных и десктопе." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>

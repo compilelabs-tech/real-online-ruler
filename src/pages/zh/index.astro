@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>真实在线尺子 — 屏幕实尺寸标尺</title>
+    <meta name="description" content="免费在线尺子，支持厘米、毫米和英寸。根据屏幕物理尺寸校准。支持移动端和桌面端。" />
+    <link rel="canonical" href="https://real-online-ruler.com/zh/" />
+    <meta property="og:title" content="真实在线尺子 — 屏幕实尺寸标尺" />
+    <meta property="og:description" content="免费在线尺子，支持厘米、毫米和英寸。根据屏幕物理尺寸校准。支持移动端和桌面端。" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>

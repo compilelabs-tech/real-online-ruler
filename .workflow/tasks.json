@@ -1,0 +1,70 @@
+{
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Project scaffold + core ruler engine",
+      "label": "feature,scaffold,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    },
+    {
+      "id": "task-002",
+      "title": "Calibration system - 5 methods",
+      "label": "feature,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    },
+    {
+      "id": "task-003",
+      "title": "i18n foundation - 5 languages",
+      "label": "feature,docs,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    },
+    {
+      "id": "task-004",
+      "title": "PWA offline support",
+      "label": "feature,qa,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    },
+    {
+      "id": "task-005",
+      "title": "Accessibility & QA hardening",
+      "label": "qa,enhancement,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    },
+    {
+      "id": "task-006",
+      "title": "SEO foundation & deployment",
+      "label": "docs,feature,P0",
+      "priority": "P0",
+      "milestone": "M1",
+      "assignee": "frontend",
+      "status": "open",
+      "agent": "frontend",
+      "attempts": 0
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Real Online Ruler — Actual Size On-Screen Ruler</title>
+    <meta name="description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size. Works on mobile and desktop." />
+    <link rel="canonical" href="https://real-online-ruler.com/" />
+    <meta property="og:title" content="Real Online Ruler — Actual Size On-Screen Ruler" />
+    <meta property="og:description" content="Free online ruler with cm, mm, and inches. Calibrated to your screen's physical size." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>

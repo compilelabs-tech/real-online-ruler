@@ -1,0 +1,23 @@
+---
+import Ruler from '../../components/Ruler.svelte';
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="generator" content={Astro.generator} />
+    <title>本物のオンライン定規 — 画面上で実寸大の定規</title>
+    <meta name="description" content="cm、mm、インチ対応の無料オンライン定規。画面の物理サイズに合わせてキャリブレーション。モバイルとデスクトップで動作。" />
+    <link rel="canonical" href="https://real-online-ruler.com/ja/" />
+    <meta property="og:title" content="本物のオンライン定規 — 画面上で実寸大の定規" />
+    <meta property="og:description" content="cm、mm、インチ対応の無料オンライン定規。画面の物理サイズに合わせてキャリブレーション。モバイルとデスクトップで動作。" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0066ff" />
+  </head>
+  <body>
+    <Ruler client:load />
+  </body>
+</html>
