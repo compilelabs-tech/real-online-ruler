@@ -474,7 +474,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    padding: 1rem;
+    padding: clamp(12px, 3vw, 28px);
     animation: fadeIn 0.2s ease;
   }
   .calibration-modal-overlay.show {
@@ -487,16 +487,16 @@
   }
 
   .calibration-modal {
-    background: #fbfdff;
-    border: 1px solid rgba(125, 148, 180, 0.2);
-    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #dfe6ef;
+    border-radius: 18px;
     width: 100%;
-    max-width: 560px;
+    max-width: 640px;
     max-height: 85vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 28px 80px rgba(11, 32, 63, 0.24);
+    box-shadow: 0 28px 80px rgba(11, 32, 63, 0.28);
     animation: slideUp 0.3s ease;
   }
 
@@ -509,25 +509,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #e4ebf5;
+    padding: 1.15rem 1.4rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e4eaf2;
   }
 
   .calibration-modal h2 {
     margin: 0;
-    color: #152238;
-    font-size: 1.2rem;
-    letter-spacing: -0.02em;
+    color: #18212f;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
   }
 
   .close-btn {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     cursor: pointer;
-    color: #718096;
-    width: 32px;
-    height: 32px;
+    color: #64748b;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -538,9 +539,9 @@
   }
 
   .current-calibration {
-    padding: 1rem 1.5rem;
-    background: #f3f7fc;
-    border-bottom: 1px solid #e4ebf5;
+    padding: 0.85rem 1.4rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e4eaf2;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -553,7 +554,7 @@
   }
   .current-calibration .value {
     font-weight: 600;
-    color: var(--text, #333);
+    color: #18212f;
   }
   .current-calibration .accuracy {
     padding: 0.25rem 0.5rem;
@@ -567,35 +568,39 @@
   .current-calibration .accuracy.low { background: #fee2e2; color: #991b1b; }
 
   .calibration-tabs {
-    display: flex;
-    overflow-x: auto;
-    padding: 0 1rem;
-    border-bottom: 1px solid #e4ebf5;
-    gap: 0.25rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 0.45rem;
+    background: #eef2f7;
+    border-bottom: 1px solid #e0e7f0;
+    gap: 0.35rem;
   }
   .calibration-tabs button {
-    padding: 0.75rem 1rem;
-    background: none;
+    min-height: 42px;
+    padding: 0.55rem 0.45rem;
+    background: transparent;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--text-muted, #666);
-    white-space: nowrap;
-    transition: all 0.2s;
+    color: #64748b;
+    line-height: 1.15;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   }
   .calibration-tabs button:hover {
-    color: var(--text, #333);
+    color: #18212f;
+    background: rgba(255, 255, 255, 0.72);
   }
   .calibration-tabs button.active {
-    color: #1769e8;
-    border-bottom-color: #1769e8;
+    color: #18212f;
+    background: #ffffff;
+    box-shadow: 0 2px 7px rgba(24, 33, 47, 0.1);
   }
 
   .tab-content {
     display: none;
-    padding: 1.5rem;
+    padding: 1.35rem 1.4rem 1.5rem;
     overflow-y: auto;
     flex: 1;
   }
@@ -653,17 +658,21 @@
   }
   .device-search input {
     flex: 1;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--border, #e0e0e0);
-    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid #d7e0eb;
+    border-radius: 9px;
     font-size: 0.875rem;
+    background: #ffffff;
+    color: #18212f;
+    outline: none;
   }
   .device-search select {
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--border, #e0e0e0);
-    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid #d7e0eb;
+    border-radius: 9px;
     font-size: 0.875rem;
-    background: var(--bg, #fff);
+    background: #ffffff;
+    color: #18212f;
   }
 
   .device-list {
@@ -723,10 +732,21 @@
   }
   .input-group input {
     flex: 1;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--border, #e0e0e0);
-    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid #d7e0eb;
+    border-radius: 9px;
     font-size: 1rem;
+    background: #ffffff;
+    color: #18212f;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .device-search input:focus,
+  .device-search select:focus,
+  .input-group input:focus {
+    border-color: #1769e8;
+    box-shadow: 0 0 0 3px rgba(23, 105, 232, 0.12);
   }
   .input-group .unit {
     color: var(--text-muted, #666);
@@ -734,8 +754,9 @@
   }
 
   .btn {
-    padding: 0.625rem 1.25rem;
-    border-radius: 8px;
+    min-height: 42px;
+    padding: 0.625rem 1.1rem;
+    border-radius: 9px;
     font-weight: 600;
     font-size: 0.875rem;
     cursor: pointer;
@@ -807,7 +828,7 @@
 
   .calibration-trigger {
     position: fixed;
-    bottom: 1.5rem;
+    bottom: 3.75rem;
     right: 1.5rem;
     width: 48px;
     height: 48px;
@@ -855,30 +876,63 @@
     transform: scale(1);
   }
 
-  /* Dark mode */
+  /* Dark mode follows the app toggle instead of the operating-system preference. */
+  :global(.dark) .calibration-modal {
+    background: #1b222c;
+    border-color: #354151;
+    color: #e8edf4;
+  }
+  :global(.dark) .calibration-modal header,
+  :global(.dark) .current-calibration {
+    background: #202a36;
+    border-color: #354151;
+  }
+  :global(.dark) .calibration-modal h2,
+  :global(.dark) .current-calibration .value,
+  :global(.dark) .device-name {
+    color: #f5f7fa;
+  }
+  :global(.dark) .calibration-tabs {
+    background: #151b23;
+    border-color: #354151;
+  }
+  :global(.dark) .calibration-tabs button {
+    color: #9daabd;
+  }
+  :global(.dark) .calibration-tabs button:hover,
+  :global(.dark) .calibration-tabs button.active {
+    background: #2d3948;
+    color: #ffffff;
+  }
+  :global(.dark) .device-search input,
+  :global(.dark) .device-search select,
+  :global(.dark) .input-group input {
+    background: #151b23;
+    border-color: #465568;
+    color: #f5f7fa;
+  }
+  :global(.dark) .device-item:hover,
+  :global(.dark) .btn.secondary {
+    background: #2d3948;
+    color: #f5f7fa;
+  }
+  :global(.dark) .instruction,
+  :global(.dark) .no-detection,
+  :global(.dark) .confidence-text,
+  :global(.dark) .device-specs,
+  :global(.dark) .card-instructions,
+  :global(.dark) .input-group .unit {
+    color: #aeb9c8;
+  }
+  :global(.dark) .card-instructions kbd {
+    background: #2d3948;
+    color: #e8edf4;
+  }
+
   @media (prefers-color-scheme: dark) {
-    .calibration-modal {
-      background: #1e1e1e;
-    }
-    .device-search input,
-    .device-search select,
-    .input-group input {
-      background: #2d2d2d;
-      border-color: #444;
-      color: #fff;
-    }
-    .device-item:hover {
-      background: #2d2d2d;
-    }
-    .current-calibration {
-      background: #2d2d2d;
-    }
-    .btn.secondary {
-      background: #3d3d3d;
-      color: #fff;
-    }
-    .card-instructions kbd {
-      background: #3d3d3d;
+    /* The explicit app theme above owns the palette. */
+    :global(.dark) .calibration-modal {
+      background: #1b222c;
     }
   }
 
@@ -900,7 +954,7 @@
       flex-direction: column;
     }
     .calibration-trigger {
-      bottom: 1rem;
+      bottom: 6rem;
       right: 1rem;
       width: 44px;
       height: 44px;

@@ -1,0 +1,1 @@
+Real Online Ruler is a free, browser-based measurement tool that turns any screen into a precision ruler calibrated to actual physical size. Unlike every competitor (English-only), we launch in 15 languages from day 1, with native Arabic RTL support, capturing 400M+ underserved users worldwide.

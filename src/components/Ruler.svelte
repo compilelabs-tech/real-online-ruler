@@ -54,6 +54,7 @@
   let guidesBtn: HTMLButtonElement;
   let fullscreenBtn: HTMLButtonElement;
   let guideToggleBtn: HTMLButtonElement;
+  let canvasResizeObserver: ResizeObserver;
 
   function getStored<T>(key: string, fallback: T): T {
     try {
@@ -547,14 +548,12 @@
   }
 
   function handleResize() {
-    viewportSize.width = window.innerWidth;
-    viewportSize.height = window.innerHeight;
+    viewportSize.width = Math.max(1, Math.floor(canvas.clientWidth));
+    viewportSize.height = Math.max(1, Math.floor(canvas.clientHeight));
     dpr = window.devicePixelRatio || 1;
 
     canvas.width = viewportSize.width * dpr;
     canvas.height = viewportSize.height * dpr;
-    canvas.style.width = `${viewportSize.width}px`;
-    canvas.style.height = `${viewportSize.height}px`;
 
     renderRulers();
 
@@ -609,6 +608,8 @@
 
     // Event listeners
     window.addEventListener('resize', handleResize);
+    canvasResizeObserver = new ResizeObserver(handleResize);
+    canvasResizeObserver.observe(canvas);
     window.addEventListener('pointermove', handlePointerMove);
     canvas.addEventListener('click', handleClick);
     window.addEventListener('keydown', handleKeyDown);
@@ -665,10 +666,12 @@
 
   <header class="app-header">
     <div class="brand-lockup">
-      <span class="brand-mark" aria-hidden="true">R</span>
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M5 5v14M5 7h8a3 3 0 0 1 0 6H5M13 13l5 6"></path></svg>
+      </span>
       <div>
         <strong>Real Ruler</strong>
-        <span>Measure at actual size</span>
+        <span>Precision workspace</span>
       </div>
     </div>
 
@@ -707,8 +710,19 @@
     <button class="header-status" type="button" aria-label="Open screen calibration" title="Open screen calibration" onclick={() => window.dispatchEvent(new CustomEvent('open-calibration'))}>
       <span class="status-dot"></span>
       <span>{calibration.method ? `${calibration.dpi} PPI · Calibrated` : '96 PPI · Estimated'}</span>
+      <span class="status-arrow" aria-hidden="true">↗</span>
     </button>
   </header>
+
+  <div class="canvas-label" aria-hidden="true">
+    <span class="canvas-kicker">ACTUAL SIZE</span>
+    <span>Place an object against any edge</span>
+  </div>
+
+  <div class="canvas-tools" aria-hidden="true">
+    <span class="canvas-tool-dot"></span>
+    <span>Guides {guides.length}</span>
+  </div>
 
   <div id="crosshair" class="crosshair" aria-hidden="true">
     <div class="crosshair-h"></div>
@@ -720,16 +734,16 @@
   <!-- Screen reader announcer -->
   <div id="sr-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <div class="shortcuts-help" aria-hidden="true">
-    <kbd>U</kbd> Unit &nbsp;
-    <kbd>D</kbd> Dark &nbsp;
-    <kbd>C</kbd> Crosshair &nbsp;
-    <kbd>G</kbd> Guides &nbsp;
-    <kbd>F</kbd> Fullscreen &nbsp;
-    <kbd>K</kbd> Calibrate &nbsp;
-    <kbd>Click</kbd> Add guide &nbsp;
-    <kbd>Right-click</kbd> Remove guide
-  </div>
+  <footer class="app-footer">
+    <span class="footer-brand">Real Ruler</span>
+    <span class="footer-divider" aria-hidden="true"></span>
+    <span>Measurements stay on this device</span>
+    <nav aria-label="Footer links">
+      <a href="/about">About</a>
+      <a href="/privacy-policy">Privacy</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </footer>
 </div>
 
 <Calibration />
@@ -739,8 +753,8 @@
     position: fixed;
     inset: 0;
     overflow: hidden;
-    background: #f4f7fb;
-    color: #152238;
+    background: #f7f8fa;
+    color: #18212f;
     font-family: 'Inter', 'Segoe UI', sans-serif;
     touch-action: none;
     -webkit-user-select: none;
@@ -748,7 +762,7 @@
   }
 
   :global(.dark) .ruler-app {
-    background: #0e1726;
+    background: #11161d;
     color: #f4f7fb;
   }
 
@@ -760,14 +774,17 @@
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    min-height: 64px;
-    padding: 10px 20px;
+    min-height: 68px;
+    padding: 12px 24px;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(244, 247, 251, 0.96), rgba(244, 247, 251, 0));
+    background: rgba(247, 248, 250, 0.94);
+    border-bottom: 1px solid rgba(211, 219, 229, 0.7);
+    backdrop-filter: blur(18px);
   }
 
   :global(.dark) .app-header {
-    background: linear-gradient(180deg, rgba(14, 23, 38, 0.96), rgba(14, 23, 38, 0));
+    background: rgba(17, 22, 29, 0.94);
+    border-bottom-color: rgba(74, 87, 103, 0.7);
   }
 
   .brand-lockup,
@@ -835,10 +852,23 @@
     place-items: center;
     border: 1px solid rgba(38, 112, 255, 0.22);
     border-radius: 10px;
-    background: #e9f1ff;
-    color: #1463e8;
-    font-size: 16px;
-    font-weight: 800;
+    background: #18212f;
+    color: #f7f8fa;
+  }
+
+  .brand-mark svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  :global(.dark) .brand-mark {
+    background: #f0b35a;
+    color: #18212f;
   }
 
   :global(.dark) .header-status {
@@ -853,10 +883,65 @@
     box-shadow: 0 0 0 3px rgba(22, 165, 104, 0.13);
   }
 
+  .canvas-label,
+  .canvas-tools {
+    position: fixed;
+    z-index: 5;
+    pointer-events: none;
+    display: grid;
+    gap: 4px;
+    color: #8591a2;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+
+  .canvas-label {
+    top: 92px;
+    left: 58px;
+  }
+
+  .canvas-kicker {
+    color: #526176;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .canvas-tools {
+    right: 58px;
+    bottom: 58px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #8793a4;
+  }
+
+  .canvas-tool-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1769e8;
+  }
+
+  :global(.dark) .canvas-label,
+  :global(.dark) .canvas-tools {
+    color: #7f8b9b;
+  }
+
+  :global(.dark) .canvas-kicker {
+    color: #b8c1ce;
+  }
+
   .ruler-canvas {
     position: absolute;
-    inset: 0;
+    inset: 68px 0 40px;
     display: block;
+    width: 100%;
+    height: calc(100% - 108px);
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    z-index: 1;
   }
 
   .crosshair {
@@ -909,13 +994,13 @@
     left: auto;
     transform: none;
     display: flex;
-    gap: 8px;
-    padding: 7px;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(106, 125, 151, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 14px 35px rgba(30, 52, 82, 0.12);
-    backdrop-filter: blur(18px);
+    gap: 3px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #e0e5ec;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(24, 33, 47, 0.09);
+    backdrop-filter: blur(16px);
     z-index: 20;
     pointer-events: auto;
     flex-wrap: wrap;
@@ -926,17 +1011,17 @@
   }
 
   :global(.dark) .controls {
-    background: rgba(20, 34, 54, 0.82);
-    border-color: rgba(169, 182, 200, 0.2);
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+    background: rgba(28, 35, 45, 0.94);
+    border-color: #354151;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
   }
 
   .control-btn {
     padding: 9px 12px;
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: 8px;
     background: transparent;
-    color: #53647b;
+    color: #657388;
     font: 600 12px 'Inter', 'Segoe UI', sans-serif;
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -945,9 +1030,9 @@
   }
 
   .control-btn:hover {
-    background: #edf3fc;
-    border-color: #d8e4f5;
-    color: #155dcc;
+    background: #f0f3f7;
+    border-color: #dbe2ea;
+    color: #18212f;
   }
 
   .control-btn:focus-visible {
@@ -956,9 +1041,9 @@
   }
 
   .control-btn[aria-pressed="true"] {
-    background: #1769e8;
+    background: #18212f;
     color: white;
-    border-color: #1769e8;
+    border-color: #18212f;
   }
 
   .icon-btn {
@@ -1028,8 +1113,8 @@
   }
 
   :global(.dark) .control-btn:hover {
-    background: #223a5d;
-    border-color: #31547f;
+    background: #354151;
+    border-color: #4b596b;
     color: #e6efff;
   }
 
@@ -1059,6 +1144,68 @@
     font-size: 10px;
   }
 
+  .app-footer {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 40px;
+    padding: 8px 24px;
+    background: rgba(247, 248, 250, 0.94);
+    border-top: 1px solid rgba(211, 219, 229, 0.7);
+    backdrop-filter: blur(18px);
+    color: #8a95a5;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    pointer-events: auto;
+  }
+
+  .footer-brand {
+    color: #5e6c7e;
+    font-weight: 700;
+  }
+
+  .footer-divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #aab3bf;
+  }
+
+  .app-footer nav {
+    display: flex;
+    gap: 10px;
+    margin-inline-start: 5px;
+  }
+
+  .app-footer a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .app-footer a:hover,
+  .app-footer a:focus-visible {
+    color: #1769e8;
+  }
+
+  :global(.dark) .app-footer,
+  :global(.dark) .footer-brand {
+    color: #8996a8;
+  }
+
+  :global(.dark) .app-footer {
+    background: rgba(17, 22, 29, 0.94);
+    border-top-color: rgba(74, 87, 103, 0.7);
+  }
+
+  :global(.dark) .footer-brand {
+    color: #b7c1cf;
+  }
+
   :global(.dark) .shortcuts-help kbd {
     background: #333;
     border-color: #555;
@@ -1068,7 +1215,7 @@
   @media (max-width: 480px) {
     .controls {
       position: fixed;
-      bottom: 8px;
+      bottom: 48px;
       top: auto;
       left: 50%;
       transform: translateX(-50%);
@@ -1096,17 +1243,38 @@
       font-size: 12px;
     }
 
-    .shortcuts-help {
-      top: 76px;
-      font-size: 10px;
-      padding: 6px 12px;
-      max-width: calc(100% - 32px);
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .app-header {
       padding: 8px 12px;
+      gap: 8px;
+    }
+
+    .brand-lockup > div {
+      display: none;
+    }
+
+    .canvas-label {
+      top: 78px;
+      left: 22px;
+    }
+
+    .canvas-tools {
+      right: 22px;
+      bottom: 92px;
+    }
+
+    .app-footer {
+      min-height: 38px;
+      padding: 7px 12px;
+      font-size: 9px;
+    }
+
+    .app-footer nav {
+      gap: 7px;
+    }
+
+    .app-footer > span:nth-child(2),
+    .app-footer > span:nth-child(3) {
+      display: none;
     }
 
     .header-status {
