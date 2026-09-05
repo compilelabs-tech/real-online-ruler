@@ -77,9 +77,12 @@
       "priority": "P0",
       "milestone": "M1",
       "assignee": "frontend",
-      "status": "open",
+      "status": "done",
       "agent": "frontend",
-      "attempts": 0
+      "attempts": 0,
+      "branch": "feat/issue-2-calibration",
+      "commits": ["048ef52"],
+      "report": ".workflow/reports/task-006-report.md"
     }
   ]
 }
