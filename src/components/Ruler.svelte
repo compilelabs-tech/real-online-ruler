@@ -671,10 +671,43 @@
         <span>Measure at actual size</span>
       </div>
     </div>
-    <div class="header-status" aria-label="Ruler status">
-      <span class="status-dot"></span>
-      <span>Screen calibrated</span>
+
+    <div class="controls" role="toolbar" aria-label="Ruler controls">
+      <button id="unit-btn" class="control-btn text-control unit-control" aria-label="Cycle units (U)" title="Change measurement unit"></button>
+      <button id="dark-btn" class="control-btn icon-btn" aria-label="Toggle dark mode (D)" title="Toggle dark mode">
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z"></path>
+        </svg>
+      </button>
+      <button id="crosshair-btn" class="control-btn icon-btn" aria-label="Toggle crosshair (C)" title="Toggle crosshair">
+        <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3v5M12 16v5M3 12h5M16 12h5"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>
+      <button id="guides-btn" class="control-btn icon-btn" aria-label="Toggle guide lines (G)" title="Toggle guide lines">
+        <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M4 17h16M7 4v16M17 4v16"></path>
+          <path d="M9 12h6M12 9v6"></path>
+        </svg>
+      </button>
+      <button id="guide-toggle-btn" class="control-btn text-control guide-control" aria-label="Toggle guide orientation" title="Change guide orientation"></button>
+      <button id="fullscreen-btn" class="control-btn icon-btn" aria-label="Toggle fullscreen (F)" title="Toggle fullscreen">
+        <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5"></path>
+        </svg>
+      </button>
+      <button id="clear-guides-btn" class="control-btn" aria-label="Clear all guides" title="Clear all guide lines" onclick={clearAllGuides}>Clear Guides</button>
     </div>
+
+    <button class="header-status" type="button" aria-label="Open screen calibration" title="Open screen calibration" onclick={() => window.dispatchEvent(new CustomEvent('open-calibration'))}>
+      <span class="status-dot"></span>
+      <span>{calibration.method ? `${calibration.dpi} PPI · Calibrated` : '96 PPI · Estimated'}</span>
+    </button>
   </header>
 
   <div id="crosshair" class="crosshair" aria-hidden="true">
@@ -683,38 +716,6 @@
   </div>
 
   <div id="coords" class="coords" aria-live="polite" aria-atomic="true"></div>
-
-  <div class="controls" role="toolbar" aria-label="Ruler controls">
-    <button id="unit-btn" class="control-btn text-control unit-control" aria-label="Cycle units (U)" title="Change measurement unit"></button>
-    <button id="dark-btn" class="control-btn icon-btn" aria-label="Toggle dark mode (D)" title="Toggle dark mode">
-      <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-      </svg>
-      <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z"></path>
-      </svg>
-    </button>
-    <button id="crosshair-btn" class="control-btn icon-btn" aria-label="Toggle crosshair (C)" title="Toggle crosshair">
-      <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3v5M12 16v5M3 12h5M16 12h5"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-    </button>
-    <button id="guides-btn" class="control-btn icon-btn" aria-label="Toggle guide lines (G)" title="Toggle guide lines">
-      <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 7h16M4 17h16M7 4v16M17 4v16"></path>
-        <path d="M9 12h6M12 9v6"></path>
-      </svg>
-    </button>
-    <button id="guide-toggle-btn" class="control-btn text-control guide-control" aria-label="Toggle guide orientation" title="Change guide orientation"></button>
-    <button id="fullscreen-btn" class="control-btn icon-btn" aria-label="Toggle fullscreen (F)" title="Toggle fullscreen">
-      <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5"></path>
-      </svg>
-    </button>
-    <button id="clear-guides-btn" class="control-btn" aria-label="Clear all guides" title="Clear all guide lines" onclick={clearAllGuides}>Clear Guides</button>
-  </div>
 
   <!-- Screen reader announcer -->
   <div id="sr-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -758,6 +759,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 18px;
     min-height: 64px;
     padding: 10px 20px;
     pointer-events: none;
@@ -783,14 +785,33 @@
     gap: 2px;
   }
 
+  .header-status {
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid rgba(106, 125, 151, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(12px);
+    color: #68758a;
+    cursor: pointer;
+    font: 500 11px 'Inter', 'Segoe UI', sans-serif;
+    pointer-events: auto;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .header-status:hover {
+    border-color: rgba(23, 105, 232, 0.35);
+    background: rgba(255, 255, 255, 0.86);
+    transform: translateY(-1px);
+  }
+
   .brand-lockup strong {
     color: #152238;
     font-size: 14px;
     letter-spacing: 0.01em;
   }
 
-  .brand-lockup span:not(.brand-mark),
-  .header-status {
+  .brand-lockup span:not(.brand-mark) {
     color: #68758a;
     font-size: 11px;
   }
@@ -799,9 +820,12 @@
     color: #f4f7fb;
   }
 
-  :global(.dark) .brand-lockup span:not(.brand-mark),
-  :global(.dark) .header-status {
+  :global(.dark) .brand-lockup span:not(.brand-mark) {
     color: #a9b6c8;
+  }
+  
+  :global(.dark) .header-status:hover {
+    background: rgba(31, 53, 84, 0.9);
   }
 
   .brand-mark {
@@ -815,15 +839,6 @@
     color: #1463e8;
     font-size: 16px;
     font-weight: 800;
-  }
-
-  .header-status {
-    gap: 7px;
-    padding: 7px 10px;
-    border: 1px solid rgba(106, 125, 151, 0.2);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.58);
-    backdrop-filter: blur(12px);
   }
 
   :global(.dark) .header-status {
@@ -889,10 +904,10 @@
   }
 
   .controls {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
     display: flex;
     gap: 8px;
     padding: 7px;
@@ -902,10 +917,12 @@
     box-shadow: 0 14px 35px rgba(30, 52, 82, 0.12);
     backdrop-filter: blur(18px);
     z-index: 20;
+    pointer-events: auto;
     flex-wrap: wrap;
     justify-content: center;
     width: max-content;
     max-width: calc(100vw - 32px);
+    flex: 0 1 auto;
   }
 
   :global(.dark) .controls {
@@ -1050,8 +1067,11 @@
 
   @media (max-width: 480px) {
     .controls {
+      position: fixed;
       bottom: 8px;
       top: auto;
+      left: 50%;
+      transform: translateX(-50%);
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       width: calc(100% - 16px);
