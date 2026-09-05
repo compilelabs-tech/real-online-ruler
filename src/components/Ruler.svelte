@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Calibration from './Calibration.svelte';
 
   const UNITS = ['cm', 'inches', 'mm'] as const;
   type Unit = typeof UNITS[number];
@@ -8,6 +9,15 @@
     id: string;
     type: 'horizontal' | 'vertical';
     position: number; // in pixels from origin
+  }
+
+  interface CalibrationData {
+    method: 'auto' | 'device' | 'diagonal' | 'card' | 'manual' | null;
+    dpi: number;
+    confidence: number;
+    deviceName: string | null;
+    diagonal: number | null;
+    cardAligned: boolean;
   }
 
   // State
@@ -20,6 +30,14 @@
   let crosshairPos = { x: 0, y: 0 };
   let viewportSize = { width: 0, height: 0 };
   let dpr = 1;
+  let calibration: CalibrationData = {
+    method: null,
+    dpi: 96,
+    confidence: 0,
+    deviceName: null,
+    diagonal: null,
+    cardAligned: false
+  };
 
   // DOM elements
   let rulerTop: HTMLElement;
@@ -144,9 +162,8 @@
   }
 
   function pxPerUnit(unit: Unit): number {
-    // 1 inch = 96 CSS pixels at 100% zoom, but we need physical size
-    // Use device pixel ratio and CSS inch (96px) to calculate
-    const cssInch = 96;
+    // Use calibrated DPI or fallback to 96
+    const cssInch = calibration.dpi || 96;
     switch (unit) {
       case 'mm':
         return cssInch / 25.4 * dpr;
@@ -508,6 +525,12 @@
         e.preventDefault();
         toggleFullscreen();
         break;
+      case 'k':
+        e.preventDefault();
+        // Open calibration modal
+        const calibrationEvent = new CustomEvent('open-calibration');
+        window.dispatchEvent(calibrationEvent);
+        break;
     }
   }
 
@@ -560,6 +583,12 @@
 
     loadSettings();
     handleResize();
+
+    // Listen for calibration changes
+    window.addEventListener('calibration-changed', ((e: CustomEvent<CalibrationData>) => {
+      calibration = e.detail;
+      renderRulers();
+    }) as EventListener);
 
     // Event listeners
     window.addEventListener('resize', handleResize);
@@ -640,10 +669,13 @@
     <kbd>C</kbd> Crosshair &nbsp;
     <kbd>G</kbd> Guides &nbsp;
     <kbd>F</kbd> Fullscreen &nbsp;
+    <kbd>K</kbd> Calibrate &nbsp;
     <kbd>Click</kbd> Add guide &nbsp;
     <kbd>Right-click</kbd> Remove guide
   </div>
 </div>
+
+<Calibration />
 
 <style>
   .ruler-app {

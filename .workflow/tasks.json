@@ -7,9 +7,12 @@
       "priority": "P0",
       "milestone": "M1",
       "assignee": "frontend",
-      "status": "open",
+      "status": "done",
       "agent": "frontend",
-      "attempts": 0
+      "attempts": 0,
+      "branch": "feat/issue-1-scaffold",
+      "commits": ["d7c3c6b"],
+      "report": ".workflow/reports/task-001-report.md"
     },
     {
       "id": "task-002",
